@@ -58,7 +58,7 @@ jobs:
           docker rm todo_run || true
           
           # Run new container
-          docker run -d --name todo_run -p 3336:3336 abhinavrenjith/todo:latest
+          docker run -d --name todo_run -p 4436:4436 abhinavrenjith/todo:latest
           
           # Verify deployment
           sleep 5

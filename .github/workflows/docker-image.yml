@@ -35,7 +35,7 @@ jobs:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SSH_USER }}
         port: 61002
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_KEY }}
         script: |
           docker pull abhinavrenjith/todo:latest
           docker stop todo || true

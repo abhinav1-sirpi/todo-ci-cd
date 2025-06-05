@@ -29,6 +29,11 @@ jobs:
         push: true
         tags: abhinavrenjith/todo:latest
 
+    - name: Decode SSH private key
+      run: |
+        echo "${{ secrets.SSH_KEY_BASE64 }}" | base64 -d > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+     
     - name: Deploy to server via SSH
       uses: appleboy/ssh-action@v1.0.3
       with:

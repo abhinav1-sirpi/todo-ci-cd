@@ -36,6 +36,7 @@ jobs:
         username: ${{ secrets.SSH_USER }}
         port: 61002
         key: ${{ secrets.SSH_KEY }}
+        debug: true
         script: |
           docker pull abhinavrenjith/todo:latest
           docker stop todo || true

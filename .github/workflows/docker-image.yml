@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Build the Docker image
+      run: sudo docker build -t todo:latest .
+      
+    - name: Push the Docker image to Dockerhub
+      run: docker tag todo:latest abhinavrenjith/todo:latest
+      run: 
+

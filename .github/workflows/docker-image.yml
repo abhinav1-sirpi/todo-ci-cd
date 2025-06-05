@@ -41,3 +41,4 @@ jobs:
           docker stop todo || true
           docker rm todo || true
           docker run -d --name todo_run -p 3336:3336 abhinavrenjith/todo:latest
+

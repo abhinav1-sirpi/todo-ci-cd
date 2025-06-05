@@ -31,7 +31,7 @@ jobs:
 
     - name: Decode SSH private key
       run: |
-        echo "${{ secrets.SSH_KEY_BASE64 }}" | base64 -d > ~/.ssh/id_rsa
+        echo "${{ secrets.SSH_KEY }}" | base64 -d > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
      
     - name: Deploy to server via SSH
@@ -40,8 +40,7 @@ jobs:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SSH_USER }}
         port: 61002
-        key: ${{ secrets.SSH_KEY }}
-        debug: true
+        key_path: ~/.ssh/id_rsa
         script: |
           docker pull abhinavrenjith/todo:latest
           docker stop todo || true

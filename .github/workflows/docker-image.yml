@@ -32,10 +32,10 @@ jobs:
     - name: Deploy to server via SSH
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ secrets.SERVER_IP }}
-        username: sirpiserver2
-        port: 61002
-        key: ${{ secrets.SSH_KEY }}
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > /tmp/ssh_private_key
+        chmod 600 /tmp/ssh_private_key
+
+        ssh -o StrictHostKeyChecking=no -i /tmp/ssh_private_key ${{ secrets.SSH_USER }}@${{ secrets.SERVER_HOST }} '
         script: |
           docker pull abhinavrenjith/todo:latest
           docker stop todo || true

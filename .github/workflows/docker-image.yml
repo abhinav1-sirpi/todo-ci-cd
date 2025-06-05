@@ -7,14 +7,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
-    
+
     - name: Docker Setup Buildx
       uses: docker/setup-buildx-action@v3.10.0
 
@@ -23,23 +21,23 @@ jobs:
       with:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER__PASSWORD }}
-      
-    - name: Build and push Docker image
+
+    - name: Build and Push Docker Image
       uses: docker/build-push-action@v6.18.0
       with:
         context: .
         push: true
         tags: abhinavrenjith/todo:latest
-        
+
     - name: Deploy to server via SSH
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.SERVER_IP }}
         username: sirpiserver2
+        port: 61002
         key: ${{ secrets.SSH_KEY }}
         script: |
           docker pull abhinavrenjith/todo:latest
           docker stop todo || true
           docker rm todo || true
           docker run -d --name todo_run -p 3336:3336 abhinavrenjith/todo:latest
-    

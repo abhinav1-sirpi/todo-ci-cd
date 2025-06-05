@@ -33,13 +33,18 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     steps:
     - name: Deploy to Remote Server
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.HOST }}
-        username: ${{ secrets.USERNAME }}
-        password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
-        script: |
+      env:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SERVER_IP: ${{ secrets.SERVER_IP }}
+        SERVER_PORT: ${{ secrets.SERVER_PORT }}
+        SERVER_USER: ${{ secrets.SERVER_USER }}
+      run: |
+        # Create private key file
+        echo "$SSH_PRIVATE_KEY" > private_key
+        chmod 600 private_key
+        
+        # SSH and deploy
+        ssh -o StrictHostKeyChecking=no -p $SERVER_PORT -i private_key $SERVER_USER@$SERVER_IP << 'EOF'
           # Pull the latest image
           docker pull abhinavrenjith/todo:latest
           
@@ -53,3 +58,4 @@ jobs:
           # Verify deployment
           sleep 5
           docker ps | grep todo_run
+        EOF
